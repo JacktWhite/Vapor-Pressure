@@ -69,8 +69,8 @@ ln_p = ln_p(valid_idx);
 inv_T = inv_T(valid_idx);
 ln_p_err = ln_p_err(valid_idx);
 
-% Perform linear fit using polyfit for temperatures between 1000°C to 1200°C
-linear_idx = inv_T >= 1/(1200+273.15) & inv_T <= 1/(1000+273.15);
+% Perform linear fit using polyfit for temperatures between ~+1°C to ~°C
+linear_idx = inv_T >= 1/(target_temps(end)+273.15) & inv_T <= 1/(target_temps(2)+273.15);
 p = polyfit(inv_T(linear_idx), ln_p(linear_idx), 1);  % First degree polynomial (linear)
 
 % Generate fitted line for the linear range
@@ -81,11 +81,11 @@ figure;
 errorbar(inv_T, ln_p, ln_p_err, '-o');  % Add error bars to the plot
 xlabel('1/T (K^{-1})');
 ylabel('ln(p)');
-title('ln(p) vs 1/T with Linear Fit (950°C to 1050°C)'); % Change dependent on what I finalize
+title('ln(p) vs 1/T with Linear Fit (850°C to 1050°C)'); % Change dependent on what I finalize
 grid on;
 
-% Highlight the linearized region (1000°C to 1050°C) in red
+% Highlight the linearized region (850°C to 1050°C) in red
 hold on;
 plot(inv_T(linear_idx), fit_line, 'r-', 'LineWidth', 2);  % Plot the fitted line
-legend('950°C to 1050°C with Error Bars', 'Linearized Fit 1000°C to 1050°C', 'Location', 'Best');
+legend('850°C to 1050°C with Error Bars', 'Linearized Fit 900°C to 1050°C', 'Location', 'Best');
 hold off;
